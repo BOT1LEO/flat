@@ -22,15 +22,19 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(
         title: Text("StatTracker"),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: ListView(
         children: [
-          ElevatedButton(
-            child: const Text("Pushup"),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: "Pushups")));
-            } 
-            ),
+          Container(
+            margin: EdgeInsets.all(5),
+            child: ElevatedButton(
+              child: const Text("Pushup"),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: "Pushups")));
+              } 
+              ),
+          ),
         ],
       ),
     );
@@ -45,16 +49,38 @@ class Stats extends StatefulWidget {
 }
 
 class _StatsState extends State<Stats> {
+  int selectedIndex = 0;
   String value = "";
   _StatsState({required this.value});
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Home',
+    ),
+    Text(
+      'Graph',
+    ),
+    Text(
+      'Settings',
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(value),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
-      body:BottomNavigationBar(
+      body: Center(child: _widgetOptions.elementAt(selectedIndex)),
+      bottomNavigationBar:BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -69,6 +95,9 @@ class _StatsState extends State<Stats> {
             label: "Settings"
           ),
         ],
+        currentIndex: selectedIndex,
+        selectedItemColor: Colors.green,
+        onTap: _onItemTapped,
       )
     );
   }
