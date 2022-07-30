@@ -1,18 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'Stats.dart';
-
+import 'Exercise.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
     home: MainMenu(),
   ));
-}
-
-class Exercise{
-  Exercise(String name){
-
-  }
 }
 
 class MainMenu extends StatefulWidget {
@@ -24,17 +18,40 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
 
+  List<Exercise> exerciseList = [
+    Exercise("Pushups"),
+    Exercise("Crunches"),
+    Exercise("Squats"),
+    Exercise("Pullups"),
+  ];
 
-  Widget statsButton(String exercise){
+  Widget statsButton(Exercise exercise){
     return Container(
       margin: const EdgeInsets.fromLTRB(5,0,5,0),
       child: ElevatedButton(
-        child: Text(exercise),
+        child: Text(exercise.name),
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
         ),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: exercise)));
+        }     
+      ),
+    );
+  }
+
+  Widget addExerciseButton(){
+    return Container(
+      margin: const EdgeInsets.fromLTRB(5,0,5,0),
+      child: ElevatedButton(
+        child: const Text("Add"),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+        ),
+        onPressed: () {
+          setState(() {
+            exerciseList.add(Exercise("Hiiii!"));
+          });
         }     
       ),
     );
@@ -49,13 +66,12 @@ class _MainMenuState extends State<MainMenu> {
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          statsButton("Pushups"),
-          statsButton("Squats"),
-          statsButton("Crunches"),
-          statsButton("Pullups"),
-        ],
+      body: ListView.builder(
+        itemCount: exerciseList.length+1,
+        itemBuilder: (context,index) {
+          if(index<exerciseList.length){return statsButton(exerciseList[index]);}
+          else {return addExerciseButton();}
+        }
       ),
     );
   }

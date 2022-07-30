@@ -1,6 +1,7 @@
+import 'package:flat/exercise.dart';
 import 'package:flutter/material.dart';
 class Stats extends StatefulWidget {
-  String value = "";
+  Exercise value;
   Stats({key,required this.value});
   @override
   State<Stats> createState() => _StatsState(value: value);
@@ -8,14 +9,14 @@ class Stats extends StatefulWidget {
 
 class _StatsState extends State<Stats> {
   int selectedIndex = 0;
-  String value = "";
+  Exercise value;
   _StatsState({required this.value});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(value),
+        title: Text(value.name),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
