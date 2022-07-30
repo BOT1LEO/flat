@@ -11,49 +11,6 @@ class _StatsState extends State<Stats> {
   String value = "";
   _StatsState({required this.value});
 
-
-  static Widget add(){
-    return Center(
-      child:  
-        Column(
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: "Reps",
-              ),
-            ),
-          ],
-        ),
-      
-    );
-  }
-
-  static Widget graph(){
-    return Center(
-        child: Text("No data yet!"),
-      );
-  }
-
-  static Widget settings(){
-    //todo settings
-    return Center(
-      
-    );
-  }
-
-  final _widgetOptions = [
-    add(),
-    graph(),
-    settings()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,5 +41,55 @@ class _StatsState extends State<Stats> {
         
       )
     );
+  }
+  
+  static Widget add(){
+    return Center(
+      child:  
+        Column(
+          children: [
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: "Reps",
+              ),
+            ),
+          ],
+        ),
+      
+    );
+  }
+
+  static Widget graph(){
+    return Center(
+        child: Column(
+          children: [
+
+          ],
+        )
+      );
+  }
+
+  static Widget settings(){
+    //todo settings
+    return Center(
+      child: Column(
+        children: [
+
+        ],
+      )
+    );
+  }
+
+  final _widgetOptions = [
+    add(),
+    graph(),
+    settings()
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
   }
 }
