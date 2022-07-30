@@ -16,25 +16,38 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+
+
+  Widget statsButton(String exercise){
+    return Container(
+      margin: const EdgeInsets.fromLTRB(5,0,5,0),
+      child: ElevatedButton(
+        child: Text(exercise),
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+        ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: exercise)));
+        }     
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("StatTracker"),
+        title: const Text("StatTracker"),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
       body: ListView(
         children: [
-          Container(
-            margin: EdgeInsets.all(5),
-            child: ElevatedButton(
-              child: const Text("Pushup"),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: "Pushups")));
-              } 
-              ),
-          ),
+          statsButton("Pushups"),
+          statsButton("Squats"),
+          statsButton("Crunches"),
+          statsButton("Pullups"),
         ],
       ),
     );
@@ -43,7 +56,7 @@ class _MainMenuState extends State<MainMenu> {
 
 class Stats extends StatefulWidget {
   String value = "";
-  Stats({required this.value});
+  Stats({key,required this.value});
   @override
   State<Stats> createState() => _StatsState(value: value);
 }
@@ -53,16 +66,41 @@ class _StatsState extends State<Stats> {
   String value = "";
   _StatsState({required this.value});
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Home',
-    ),
-    Text(
-      'Graph',
-    ),
-    Text(
-      'Settings',
-    ),
+
+  static Widget add(){
+    return Center(
+      child:  
+        Column(
+          children: [
+            TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: "Reps",
+              ),
+            ),
+          ],
+        ),
+      
+    );
+  }
+
+  static Widget graph(){
+    return Center(
+        //todo graph
+      );
+  }
+
+  static Widget settings(){
+    //todo settings
+    return Center(
+      
+    );
+  }
+
+  final _widgetOptions = [
+    add(),
+    graph(),
+    settings()
   ];
 
   void _onItemTapped(int index) {
@@ -84,7 +122,7 @@ class _StatsState extends State<Stats> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: "Best"
+            label: "Add"
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.graphic_eq),
@@ -98,6 +136,7 @@ class _StatsState extends State<Stats> {
         currentIndex: selectedIndex,
         selectedItemColor: Colors.green,
         onTap: _onItemTapped,
+        
       )
     );
   }
