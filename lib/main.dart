@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'Stats.dart';
-import 'Exercise.dart';
+import 'stats.dart';
+import 'exercise.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'Navigation Basics',
@@ -17,6 +17,7 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  bool adding = false;
 
   List<Exercise> exerciseList = [
     Exercise("Pushups"),
@@ -35,6 +36,7 @@ class _MainMenuState extends State<MainMenu> {
         ),
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Stats(value: exercise)));
+          print(exercise.name);
         }     
       ),
     );
@@ -50,13 +52,60 @@ class _MainMenuState extends State<MainMenu> {
         ),
         onPressed: () {
           setState(() {
-            exerciseList.add(Exercise("Hiiii!"));
+            adding = true;
           });
         }     
       ),
     );
   }
 
+  Widget addExerciseForm(){
+    return Container(
+      margin: const EdgeInsets.fromLTRB(5,0,5,0),
+      child: Column(
+        children: [
+        TextFormField(
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              label: Text("Exercise"),
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(child: Container(
+              child:ElevatedButton(
+                child: Icon(Icons.check_sharp),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                ),
+                onPressed: () {
+                  setState(() {
+                    adding = false;
+                  });
+                }     
+              ),
+              ),),
+              Expanded(
+                child: Container(
+                  child: ElevatedButton(
+                    child: Icon(Icons.cancel),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        adding = false;
+                      });
+                    }     
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +119,13 @@ class _MainMenuState extends State<MainMenu> {
         itemCount: exerciseList.length+1,
         itemBuilder: (context,index) {
           if(index<exerciseList.length){return statsButton(exerciseList[index]);}
-          else {return addExerciseButton();}
+          else {
+            if(adding){
+              return addExerciseForm();
+            }else{
+              return addExerciseButton();
+            }
+          }
         }
       ),
     );
