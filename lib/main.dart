@@ -17,6 +17,7 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  final myController = TextEditingController();
   bool adding = false;
 
   List<Exercise> exerciseList = [
@@ -65,6 +66,7 @@ class _MainMenuState extends State<MainMenu> {
       child: Column(
         children: [
         TextFormField(
+            controller: myController,
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
               label: Text("Exercise"),
@@ -80,6 +82,8 @@ class _MainMenuState extends State<MainMenu> {
                 ),
                 onPressed: () {
                   setState(() {
+                    exerciseList.add(Exercise(myController.text));
+                    myController.clear();
                     adding = false;
                   });
                 }     
@@ -94,6 +98,7 @@ class _MainMenuState extends State<MainMenu> {
                     ),
                     onPressed: () {
                       setState(() {
+                        myController.clear();
                         adding = false;
                       });
                     }     
